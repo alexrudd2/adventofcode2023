@@ -2,8 +2,8 @@ use std::fs::File;
 use std::io::BufRead;
 use std::io::BufReader;
 
-fn main() {
-    let input = File::open("input.txt").expect("Could not read input");
+pub fn main() {
+    let input = File::open("src/day1/input.txt").expect("Could not read input");
     let reader = BufReader::new(input);
     let lines: Vec<_> = reader.lines().collect();
 
@@ -51,7 +51,7 @@ fn main() {
         }
         total2 += first_num * 10 + last_num;
     }
-    
+    println!("Day 1: Trebuchet?!");
     println!("The sum of the calibration values (no words) is {}.", total1);
     println!("The sum of the calibration values (with words) is {}.", total2);
 

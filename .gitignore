@@ -11,3 +11,8 @@ Cargo.lock
 
 example_input.txt
 input.txt
+
+
+# Added by cargo
+
+/target
