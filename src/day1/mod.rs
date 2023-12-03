@@ -1,16 +1,11 @@
-use std::fs::File;
-use std::io::BufRead;
-use std::io::BufReader;
+#[path = "../util/util.rs"] mod util;
 
 pub fn main() {
-    let input = File::open("src/day1/input.txt").expect("Could not read input");
-    let reader = BufReader::new(input);
-    let lines: Vec<_> = reader.lines().collect();
 
     let mut total1: u32 = 0;
     let mut total2: u32 = 0;
-    for line in lines {
-        let calibration1: String = line.expect("Could not parse line").trim().to_string();
+    for line in util::read_input("src/day1/input.txt") {
+        let calibration1: String = line.trim().to_string();
         // strings can overlap
         let calibration2 = calibration1.replace("zero", "z0o")
                                          .replace("one", "o1e")
