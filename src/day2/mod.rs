@@ -5,7 +5,7 @@
 pub fn main() {
     println!("Day 2: Cube Conundrum");
     let mut games = Vec::new();
-    for line in util::read_input("src/day2/input.txt") {
+    for line in util::read_input_iter("src/day2/input.txt") {
         let colon = line.find(":").unwrap();
         let gameno = &line[5..colon]
                            .parse::<i32>().unwrap();
@@ -67,6 +67,6 @@ pub fn main() {
         let power:i32 = min_red * min_blue * min_green;
         total += power;
     }
-    println!("The total cube power is {total}.   That's over 9000!");
+    println!("The total cube power is {total}.   That's over 9000!\n");
 
 }

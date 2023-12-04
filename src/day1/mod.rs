@@ -4,7 +4,7 @@ pub fn main() {
 
     let mut total1: u32 = 0;
     let mut total2: u32 = 0;
-    for line in util::read_input("src/day1/input.txt") {
+    for line in util::read_input_iter("src/day1/input.txt") {
         let calibration1: String = line.trim().to_string();
         // strings can overlap
         let calibration2 = calibration1.replace("zero", "z0o")
@@ -48,6 +48,6 @@ pub fn main() {
     }
     println!("Day 1: Trebuchet?!");
     println!("The sum of the calibration values (no words) is {}.", total1);
-    println!("The sum of the calibration values (with words) is {}.", total2);
+    println!("The sum of the calibration values (with words) is {}.\n", total2);
 
 }
