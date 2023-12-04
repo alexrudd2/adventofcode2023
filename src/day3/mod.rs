@@ -129,7 +129,7 @@ pub fn main() {
             }
         }
     }
-    println!("This calculation grinds my gears.  The gear ratio sum is {gear_ratio_sum}.");
+    println!("This calculation grinds my gears.  The gear ratio sum is {gear_ratio_sum}.\n");
 
 }
 
