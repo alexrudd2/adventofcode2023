@@ -3,6 +3,7 @@ use std::io::BufRead;
 use std::io::BufReader;
 use ndarray::{Array2, ArrayBase, OwnedRepr, Dim};
 
+#[allow(dead_code)]
 pub fn read_input_iter(path: &str) -> impl Iterator<Item = String> {
     let input = File::open(path).expect("Could not read input");
     let reader = BufReader::new(input);
@@ -10,6 +11,7 @@ pub fn read_input_iter(path: &str) -> impl Iterator<Item = String> {
     return lines.into_iter();
 }
 
+#[allow(dead_code)]
 pub fn read_input_array(path: & str) -> ArrayBase<OwnedRepr<char>, Dim<[usize; 2]>> {
     let input = File::open(path).expect("Could not read input");
     let reader = BufReader::new(input);
