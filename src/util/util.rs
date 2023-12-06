@@ -1,7 +1,7 @@
+use ndarray::{Array2, ArrayBase, Dim, OwnedRepr};
 use std::fs::File;
 use std::io::BufRead;
 use std::io::BufReader;
-use ndarray::{Array2, ArrayBase, OwnedRepr, Dim};
 
 #[allow(dead_code)]
 pub fn read_input_iter(path: &str) -> impl Iterator<Item = String> {
@@ -12,7 +12,7 @@ pub fn read_input_iter(path: &str) -> impl Iterator<Item = String> {
 }
 
 #[allow(dead_code)]
-pub fn read_input_array(path: & str) -> ArrayBase<OwnedRepr<char>, Dim<[usize; 2]>> {
+pub fn read_input_array(path: &str) -> ArrayBase<OwnedRepr<char>, Dim<[usize; 2]>> {
     let input = File::open(path).expect("Could not read input");
     let reader = BufReader::new(input);
     let lines: Vec<String> = reader.lines().collect::<Result<_, _>>().unwrap();

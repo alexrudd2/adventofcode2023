@@ -23,7 +23,6 @@ pub fn main() {
     println!("The 'error margin' is: {margin_of_error}.");
     println!("Assuming no elves try to sink your boat, that is...");
 
-    
     let mut sum: i64 = 0;
     let total_time: i64 = 55999793;
     let distance_to_beat: i64 = 401148522741405;

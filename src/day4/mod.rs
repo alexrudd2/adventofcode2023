@@ -1,19 +1,18 @@
-#[path = "../util/util.rs"] mod util;
+#[path = "../util/util.rs"]
+mod util;
 
-#[derive(Debug)]
-#[derive(Clone)]
-struct Scratchcard (i32, i32, Vec<i32>, Vec<i32>);
+#[derive(Debug, Clone)]
+struct Scratchcard(i32, i32, Vec<i32>, Vec<i32>);
 
 pub fn main() {
     println!("Day 4: Scratchcards");
     let mut cards = Vec::new();
     for line in util::read_input_iter("src/day4/input.txt") {
         let colon = line.find(":").unwrap();
-        let cardno = &line[5..colon]
-                           .trim().parse::<i32>().unwrap();
+        let cardno = &line[5..colon].trim().parse::<i32>().unwrap();
         let pipe = line.find("|").unwrap();
-        let winline = &line[colon+2..pipe-1];
-        let haveline = &line[pipe+2..];
+        let winline = &line[colon + 2..pipe - 1];
+        let haveline = &line[pipe + 2..];
         let winvec: Vec<i32> = str_to_i32_vec(winline);
         let havevec: Vec<i32> = str_to_i32_vec(haveline);
         cards.push(Scratchcard(*cardno, 1, winvec, havevec));
@@ -32,7 +31,7 @@ pub fn main() {
             }
             // println!("WINNER: {have_num} makes card worth {points}");
         }
-    total += points;
+        total += points;
     }
     println!("The elf's scratchcards are worth {total}.");
 
@@ -49,8 +48,8 @@ pub fn main() {
             }
         }
         // println!("C-: {cards:?}\n");
-        for j in 1..copies+1 {
-            cards[i + j].1  += current_copies;
+        for j in 1..copies + 1 {
+            cards[i + j].1 += current_copies;
         }
         // println!("C+: {cards:?}\n");
         i += 1;
@@ -58,7 +57,11 @@ pub fn main() {
     println!("I got coal instead of cards this year. =( The number of cards on my wishlist was {total_cards}.\n");
 }
 
-fn str_to_i32_vec(s: &str) -> Vec<i32> { // todo: use generics?
+fn str_to_i32_vec(s: &str) -> Vec<i32> {
+    // todo: use generics?
     let v: Vec<&str> = s.split_whitespace().collect();
-    return v.iter().map(|&s| s.parse().expect("Tried to parse non-integer value")).collect();
+    return v
+        .iter()
+        .map(|&s| s.parse().expect("Tried to parse non-integer value"))
+        .collect();
 }

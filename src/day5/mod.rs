@@ -1,4 +1,5 @@
-#[path = "../util/util.rs"] mod util;
+#[path = "../util/util.rs"]
+mod util;
 
 pub fn main() {
     println!("Day 5: If You Give A Seed A Fertilizer");
@@ -57,7 +58,7 @@ pub fn main() {
     // println!("{lt:?}");
     // println!("{th:?}");
     // println!("{hl:?}");
-    
+
     let mut lowest_location = i64::MAX;
     for seed in &seeds {
         // println!("{seed}");
@@ -75,7 +76,7 @@ pub fn main() {
         // println!("h: {humd}");
         let locn = next_map(humd, &hl);
         // println!("l: {locn}");
-        
+
         if locn < lowest_location {
             lowest_location = locn;
         }
@@ -118,19 +119,23 @@ pub fn main() {
     // println!("h: {humd:?}");
     let locn = next_map_range(humd, &hl);
     // println!("l: {locn:?}");
-    
+
     for v in locn {
-        if v[0] < lowest_location && v[0] > 0{  // Why the &*($#! are there zeroes?  Rather than fix, ignore... >_>
+        if v[0] < lowest_location && v[0] > 0 {
+            // Why the &*($#! are there zeroes?  Rather than fix, ignore... >_>
             lowest_location = v[0];
         }
     }
     println!("With ranges, the seed with the lowest location is at {lowest_location}.\n");
-
 }
 
-fn str_to_i64_vec(s: &str) -> Vec<i64> { // todo: use generics?
+fn str_to_i64_vec(s: &str) -> Vec<i64> {
+    // todo: use generics?
     let v: Vec<&str> = s.split_whitespace().collect();
-    return v.iter().map(|&s| s.parse().expect("Tried to parse non-integer value")).collect();
+    return v
+        .iter()
+        .map(|&s| s.parse().expect("Tried to parse non-integer value"))
+        .collect();
 }
 
 fn next_map(value: i64, v: &Vec<Vec<i64>>) -> i64 {
@@ -219,18 +224,17 @@ fn range_contains_all(container_range: (i64, i64), check_range: (i64, i64)) -> b
 }
 
 fn range_contains_middle(container_range: (i64, i64), check_range: (i64, i64)) -> bool {
-    return check_range.0 < container_range.0
-      && check_range.1 > container_range.1;
+    return check_range.0 < container_range.0 && check_range.1 > container_range.1;
 }
 
 fn range_contains_start(container_range: (i64, i64), check_range: (i64, i64)) -> bool {
     return check_range.0 >= container_range.0
-      && check_range.0 <= container_range.1
-      && check_range.1 > container_range.1;
+        && check_range.0 <= container_range.1
+        && check_range.1 > container_range.1;
 }
 
 fn range_contains_end(container_range: (i64, i64), check_range: (i64, i64)) -> bool {
     return check_range.0 <= container_range.0
-      && check_range.1 >= container_range.0
-      && check_range.1 <= container_range.1;
+        && check_range.1 >= container_range.0
+        && check_range.1 <= container_range.1;
 }
