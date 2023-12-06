@@ -124,7 +124,7 @@ pub fn main() {
             lowest_location = v[0];
         }
     }
-    println!("With ranges, the seed with the lowest location is at {lowest_location}.");
+    println!("With ranges, the seed with the lowest location is at {lowest_location}.\n");
 
 }
 
