@@ -32,5 +32,5 @@ pub fn main() {
             sum += 1;
         }
     }
-    println!("The big race has a corresponding error margin of {sum}.");
+    println!("The big race has a corresponding error margin of {sum}.\n");
 }
