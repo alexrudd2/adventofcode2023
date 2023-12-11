@@ -8,7 +8,7 @@ pub fn main() {
         let history = vec![str_to_i32_vec(&line)];
         report.push(history);
     }
-    println!("{report:?}");
+    // println!("{report:?}");
 
     let mut after_total = 0;
     let mut before_total = 0;
@@ -25,7 +25,7 @@ pub fn main() {
                 break;
             }
         }
-        println!("{line:?}");
+        // println!("{line:?}");
         for i in &line {
             after_total += i.iter().last().unwrap();
         }
