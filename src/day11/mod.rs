@@ -88,13 +88,14 @@ fn transpose<T: Clone + std::default::Default>(matrix: &Vec<Vec<T>>) -> Vec<Vec<
 
     transposed
 }
-fn expand_empty_rows(input: &Vec<Vec<char>>) -> Vec<Vec<char>>{
-    let mut output: Vec<Vec<char>> = Vec::new();
-    for row in input.iter() {
-        if !row.contains(&'#') {
-            output.push(row.clone());
-        }
-        output.push(row.to_vec());
-    }
-    output
-}
+// was used for Part 1, replaced
+// fn expand_empty_rows(input: &Vec<Vec<char>>) -> Vec<Vec<char>>{
+//     let mut output: Vec<Vec<char>> = Vec::new();
+//     for row in input.iter() {
+//         if !row.contains(&'#') {
+//             output.push(row.clone());
+//         }
+//         output.push(row.to_vec());
+//     }
+//     output
+// }
