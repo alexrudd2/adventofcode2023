@@ -8,16 +8,20 @@ mod day7;
 mod day8;
 mod day9;
 mod day11;
+mod day12;
+mod day13;
 
 fn main() {
-    day1::main();
-    day2::main();
-    day3::main();
-    day4::main();
-    day5::main();
-    day6::main();
-    day7::main();
-    day8::main();
-    day9::main();
-    day11::main();
+    // day1::main();
+    // day2::main();
+    // day3::main();
+    // day4::main();
+    // day5::main();
+    // day6::main();
+    // day7::main();
+    // day8::main();
+    // day9::main();
+    // day11::main();
+    // day12::main();
+    day13::main();
 }
