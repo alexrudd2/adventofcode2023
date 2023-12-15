@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE_TO_WATCH="./src/day13/mod.rs"
+FILE_TO_WATCH="./src/day10/mod.rs"
 COMMAND_TO_RUN="cargo run"
 
 while true; do
