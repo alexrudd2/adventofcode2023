@@ -2,7 +2,7 @@
 mod util;
 
 use petgraph::graph::Graph;
-use petgraph::algo::dijkstra;
+// use petgraph::algo::dijkstra;
 use petgraph::visit::EdgeRef;
 use std::collections::{HashSet, HashMap};
 use binary_heap_plus::BinaryHeap;
@@ -19,7 +19,7 @@ enum Direction {
 pub fn main() {
     println!("Day 17: Clumsy Crucible");
     let lava_map = util::read_input_array("src/day17/input.txt");
-    println!("{lava_map:?}");
+    // println!("{lava_map:?}");
 
     let rows = lava_map.shape()[0];
     let cols = lava_map.shape()[1];
@@ -78,31 +78,56 @@ pub fn main() {
     let end_node = graph.node_indices().max().unwrap();
 
     // Use Dijkstra's algorithm to find the lowest traversal cost
-    let distances = dijkstra(&graph,
-                                                      start_node,
-                                                 Some(end_node),  
-                                            |edge| *graph.node_weight(edge.target()).unwrap());
+    //  This isn't correct, but can sanity check the custom algo below
+    // let costs = dijkstra(&graph,
+    //                                                   start_node,
+    //                                              Some(end_node),  
+    //                                         |edge| *graph.node_weight(edge.target()).unwrap());
 
-    let lowest_cost = distances.get(&end_node).unwrap();
-    println!("lowest cost: {lowest_cost}");
+    // let lowest_cost = costs.get(&end_node).unwrap();
+    // println!("lowest cost: {lowest_cost}");
 
     
-    let distances = custom_dijkstra(&graph, start_node, Some(end_node));
+    let part1_costs = custom_dijkstra(&graph, start_node, Some(end_node), 0, 3);
 
     let mut sorted = Vec::new();
-    for d in &distances {
+    for d in &part1_costs {
         sorted.push(d);
     }
     sorted.sort_by(|(a, _), (b, _)| a.0.index().cmp(&b.0.index()));
-    // Print distances and traversed edges for each node
-    for (node, &distance) in &sorted {
-        println!("Node {}({:?}x{}): Distance: {}", node.0.index(), node.1, node.2, distance);
-    }
-    // let lowest_cost = distances.last.unwrap();
-    // println!("lowest cost: {lowest_cost}");
-    // for (node, distance) in &sorted {
-    //     println!("Node {}: Distance = {}", node.index(), distance);
+    // Print costs and traversed edges for each node
+    // for (node, &cost) in &sorted {
+    //     println!("Node {}({:?}x{}): cost: {}", node.0.index(), node.1, node.2, cost);
     // }
+
+    let final_node_index = sorted.last().unwrap().0.0;
+    let lowest_cost = sorted.into_iter()
+        .filter(|&tuple| tuple.0.0 == final_node_index)
+        .map(|tuple| *tuple.1)
+        .min()
+        .unwrap();
+    println!("The least heat loss possible is: {lowest_cost:?}");
+
+        
+    let part2_costs = custom_dijkstra(&graph, start_node, Some(end_node), 4, 10);
+
+    let mut sorted = Vec::new();
+    for d in &part2_costs {
+        sorted.push(d);
+    }
+    sorted.sort_by(|(a, _), (b, _)| a.0.index().cmp(&b.0.index()));
+    // for (node, &cost) in &sorted {
+    //     println!("Node {}({:?}x{}): cost: {}", node.0.index(), node.1, node.2, cost);
+    // }
+
+    let final_node_index = sorted.last().unwrap().0.0;
+    let lowest_cost = sorted.into_iter()
+        .filter(|&tuple| tuple.0.0 == final_node_index)
+        .map(|tuple| *tuple.1)
+        .min()
+        .unwrap();
+    println!("The least heat loss possible with an ultra crucible is: {lowest_cost:?}");
+
 
     // 928 is too high
 
@@ -111,6 +136,8 @@ fn custom_dijkstra<G>(
     graph: G,
     start: G::NodeId,
     goal: Option<G::NodeId>,
+    min_consecutive: i8,
+    max_consecutive: i8,
 ) -> HashMap<(G::NodeId, Direction, i8), i32>
 where
     G: petgraph::visit::IntoEdges + petgraph::visit::Visitable + petgraph::data::DataMap,
@@ -120,11 +147,11 @@ where
     G::EdgeId: core::fmt::Debug + std::cmp::Eq + std::hash::Hash,
     G::EdgeRef: core::fmt::Debug
 {
-    let mut distances = HashMap::new();
+    let mut costs = HashMap::new();
     let mut visited = HashSet::new();
     let mut queue = BinaryHeap::new_min();
 
-    distances.insert((start, Direction::Dummy, 0), 0);
+    costs.insert((start, Direction::Dummy, 0), 0);
     queue.push(((start, Direction::Dummy, 0), 0));
 
     while let Some((node, dist)) = queue.pop() {
@@ -132,10 +159,9 @@ where
         //     continue;
         // }
 
-        if Some(node.0) == goal {
-            break;
-        }
-        visited.insert(node);
+        // if Some(node.0) == goal {
+        //     break;
+        // }
 
         // println!("Now at {node:?} with cost {dist}");
         let prev_dir = node.1;
@@ -147,20 +173,21 @@ where
             // let w = graph.node_weight(edge.target()).unwrap().clone().into();
 
             // let mut existing_cost = 1000;
-            // if distances.contains_key(&target) {
-            //     existing_cost = *distances.get(&target).unwrap();
+            // if costs.contains_key(&target) {
+            //     existing_cost = *costs.get(&target).unwrap();
             // }
             // println!("Check {target:?} ({direction:?}) with cost {existing_cost}");
 
-            // no 4 in a row
+            let mut cost = dist + graph.node_weight(edge.target()).unwrap().clone().into();
+
             if direction == prev_dir {
-                if prev_seq == 3 {
+                if prev_seq == max_consecutive {
                     // println!(" 4 in a row, don't push!");
                     continue;
                 }
             } else {
+                if prev_dir != Direction::Dummy && prev_seq < min_consecutive { continue; }
                 target.2 = 1;
-                // no backtrack
                 if direction == Direction::U && prev_dir == Direction::D
                     || direction == Direction::D && prev_dir == Direction::U
                     || direction == Direction::L && prev_dir == Direction::R
@@ -169,15 +196,19 @@ where
                     continue;
                 }
             }
-            let cost = dist + graph.node_weight(edge.target()).unwrap().clone().into();
-            if !distances.contains_key(&target) || cost < *distances.get(&target).unwrap() {
-                distances.insert(target, cost);
+            if edge.target() == goal.unwrap() && target.2 < min_consecutive {
+                cost = 10000;
+            }
+            if !costs.contains_key(&target) || cost < *costs.get(&target).unwrap() {
+                costs.insert(target, cost);
                 queue.push((target, cost));
                 // println!("PUSH {target:?}, {cost}");
             }
         }
+        visited.insert(node);
+
         // print!("\n");
     }
 
-    distances
+    costs
 }
