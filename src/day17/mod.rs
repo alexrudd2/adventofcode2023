@@ -3,9 +3,9 @@ mod util;
 
 use petgraph::graph::Graph;
 // use petgraph::algo::dijkstra;
-use petgraph::visit::EdgeRef;
-use std::collections::{HashSet, HashMap};
 use binary_heap_plus::BinaryHeap;
+use petgraph::visit::EdgeRef;
+use std::collections::{HashMap, HashSet};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum Direction {
@@ -24,12 +24,11 @@ pub fn main() {
     let rows = lava_map.shape()[0];
     let cols = lava_map.shape()[1];
 
-
     let mut graph = Graph::<i32, Direction>::new();
     let mut vertices = Vec::new();
     for i in 0..rows {
         for j in 0..cols {
-            let vertex = graph.add_node(lava_map[[i,j]].to_digit(10).unwrap() as i32);
+            let vertex = graph.add_node(lava_map[[i, j]].to_digit(10).unwrap() as i32);
             vertices.push(vertex);
         }
     }
@@ -81,13 +80,12 @@ pub fn main() {
     //  This isn't correct, but can sanity check the custom algo below
     // let costs = dijkstra(&graph,
     //                                                   start_node,
-    //                                              Some(end_node),  
+    //                                              Some(end_node),
     //                                         |edge| *graph.node_weight(edge.target()).unwrap());
 
     // let lowest_cost = costs.get(&end_node).unwrap();
     // println!("lowest cost: {lowest_cost}");
 
-    
     let part1_costs = custom_dijkstra(&graph, start_node, Some(end_node), 0, 3);
 
     let mut sorted = Vec::new();
@@ -100,15 +98,15 @@ pub fn main() {
     //     println!("Node {}({:?}x{}): cost: {}", node.0.index(), node.1, node.2, cost);
     // }
 
-    let final_node_index = sorted.last().unwrap().0.0;
-    let lowest_cost = sorted.into_iter()
-        .filter(|&tuple| tuple.0.0 == final_node_index)
+    let final_node_index = sorted.last().unwrap().0 .0;
+    let lowest_cost = sorted
+        .into_iter()
+        .filter(|&tuple| tuple.0 .0 == final_node_index)
         .map(|tuple| *tuple.1)
         .min()
         .unwrap();
     println!("The least heat loss possible is: {lowest_cost:?}");
 
-        
     let part2_costs = custom_dijkstra(&graph, start_node, Some(end_node), 4, 10);
 
     let mut sorted = Vec::new();
@@ -120,17 +118,16 @@ pub fn main() {
     //     println!("Node {}({:?}x{}): cost: {}", node.0.index(), node.1, node.2, cost);
     // }
 
-    let final_node_index = sorted.last().unwrap().0.0;
-    let lowest_cost = sorted.into_iter()
-        .filter(|&tuple| tuple.0.0 == final_node_index)
+    let final_node_index = sorted.last().unwrap().0 .0;
+    let lowest_cost = sorted
+        .into_iter()
+        .filter(|&tuple| tuple.0 .0 == final_node_index)
         .map(|tuple| *tuple.1)
         .min()
         .unwrap();
     println!("The least heat loss possible with an ultra crucible is: {lowest_cost:?}");
 
-
     // 928 is too high
-
 }
 fn custom_dijkstra<G>(
     graph: G,
@@ -145,7 +142,7 @@ where
     <G as petgraph::visit::Data>::EdgeWeight: Into<Direction> + Copy,
     G::NodeId: Eq + std::hash::Hash + core::fmt::Debug + Ord,
     G::EdgeId: core::fmt::Debug + std::cmp::Eq + std::hash::Hash,
-    G::EdgeRef: core::fmt::Debug
+    G::EdgeRef: core::fmt::Debug,
 {
     let mut costs = HashMap::new();
     let mut visited = HashSet::new();
@@ -186,12 +183,15 @@ where
                     continue;
                 }
             } else {
-                if prev_dir != Direction::Dummy && prev_seq < min_consecutive { continue; }
+                if prev_dir != Direction::Dummy && prev_seq < min_consecutive {
+                    continue;
+                }
                 target.2 = 1;
                 if direction == Direction::U && prev_dir == Direction::D
                     || direction == Direction::D && prev_dir == Direction::U
                     || direction == Direction::L && prev_dir == Direction::R
-                    || direction == Direction::R && prev_dir == Direction::L {
+                    || direction == Direction::R && prev_dir == Direction::L
+                {
                     // println!("Backtrack, don't push!");
                     continue;
                 }

@@ -67,7 +67,6 @@ pub fn main() {
 
     println!("The distance between all the galaxies is {total1}.");
     println!("The distance between all the galaxies is {total2}.");
-
 }
 
 fn transpose<T: Clone + std::default::Default>(matrix: &Vec<Vec<T>>) -> Vec<Vec<T>> {

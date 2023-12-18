@@ -21,7 +21,7 @@ pub fn main() {
             }
             line.push(next_line.clone());
             i += 1;
-            if next_line.iter().all(|k|*k==0) {
+            if next_line.iter().all(|k| *k == 0) {
                 break;
             }
         }
@@ -32,7 +32,6 @@ pub fn main() {
         let mut before = 0;
         for i in line.iter().rev() {
             before = i[0] - before;
-
         }
         before_total += before;
     }

@@ -1,7 +1,7 @@
 #[path = "../util/util.rs"]
 mod util;
-use std::collections::HashMap;
 use num::integer::lcm;
+use std::collections::HashMap;
 
 pub fn main() {
     println!("Day 8: Haunted Wasteland");
@@ -29,9 +29,11 @@ pub fn main() {
         match char {
             'L' => position = &network[position].0,
             'R' => position = &network[position].1,
-            _ => panic!()
+            _ => panic!(),
         }
-        if position == "ZZZ" { break };
+        if position == "ZZZ" {
+            break;
+        };
     }
     println!("You can escape the maze in {steps} steps.  Make sure to feed the camel!");
 
@@ -47,9 +49,11 @@ pub fn main() {
             match char {
                 'L' => positions[i] = &network[positions[i]].0,
                 'R' => positions[i] = &network[positions[i]].1,
-                _ => panic!()
+                _ => panic!(),
             }
-            if positions[i].chars().nth(2).unwrap() == 'Z' { break };
+            if positions[i].chars().nth(2).unwrap() == 'Z' {
+                break;
+            };
         }
         total_steps = lcm(total_steps, steps as i64);
     }
