@@ -3,7 +3,6 @@ mod util;
 
 use petgraph::graph::{ DiGraph, NodeIndex };
 use petgraph::algo::dijkstra;
-use binary_heap_plus::BinaryHeap;
 use petgraph::visit::EdgeRef;
 use std::collections::{HashMap, HashSet};
 

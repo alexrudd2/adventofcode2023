@@ -196,22 +196,18 @@ fn check_vertical_reflect (transposed_pattern: &Vec<Vec<char>>) -> Vec<usize> {
     if matches.len() > 0 {
         'outer: for match_index in &matches {
             let mut i = 0;
-            let mut break_occured = false;
             while 1 + match_index - i > 0 as usize && match_index + i < len - 1 {
                 let a = &transposed_pattern[match_index - i];
                 let b = &transposed_pattern[match_index + 1 + i];
                 if a != b {
                     // println!("> {i}: {a:?} + {b:?} ");
-                    break_occured = true;
                     continue 'outer;
                 }
                 // println!("{i}: {a:?} + {b:?} ");
 
                 i += 1;
             }
-            if !break_occured {
-                reflect_indices.push(*match_index);
-            }
+            reflect_indices.push(*match_index);
         }
     }
     reflect_indices
