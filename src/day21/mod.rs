@@ -2,8 +2,8 @@
 mod util;
 
 use petgraph::algo::dijkstra;
-use petgraph::graph::{Graph, UnGraph};
-use std::collections::{HashMap, HashSet};
+use petgraph::graph::UnGraph;
+use std::collections::HashMap;
 
 pub fn main() {
     println!("Day 21: Step Counter");
